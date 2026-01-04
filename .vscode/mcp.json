@@ -1,0 +1,12 @@
+{
+	"servers": {
+		"my-mcp-server-b34c94a2": {
+			"type": "stdio",
+			"command": "/workspaces/ai-dev-tools/week3/.venv/bin/python",
+			"args": [
+				"/workspaces/ai-dev-tools/week3/main.py"
+			]
+		}
+	},
+	"inputs": []
+}
