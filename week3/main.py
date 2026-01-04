@@ -1,5 +1,7 @@
 from fastmcp import FastMCP
 import requests
+from pathlib import Path
+from search import load_documents_from_zip, create_search_index, search
 
 
 mcp = FastMCP("Demo")
@@ -38,6 +40,25 @@ def count_words(text: str, word: str) -> int:
         The number of times the word appears in the text
     """
     return text.lower().count(word.lower())
+
+# Initialize the search index on startup
+zip_path = Path(__file__).parent / "fastmcp-main.zip"
+documents = load_documents_from_zip(str(zip_path))
+index = create_search_index(documents)
+
+@mcp.tool
+def search_docs(query: str, num_results: int = 5) -> list[dict]:
+    """
+    Search the fastmcp documentation for relevant documents.
+    
+    Args:
+        query: The search query string
+        num_results: Number of results to return (default: 5)
+        
+    Returns:
+        List of matching documents with filename and content
+    """
+    return search(index, query, num_results)
 
 if __name__ == "__main__":
     mcp.run()
